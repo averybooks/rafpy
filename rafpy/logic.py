@@ -56,12 +56,6 @@ def id_signal_candidates(fig_num, observed, current_fs, filter_range=None, show_
         ax.set_title(f"Fig {fig_num}. Signal Identification (Observed: {observed} Hz | $f_s$: {current_fs} Hz | Bandpass {np.min(filter_range)}-{np.max(filter_range)} Hz)", fontweight='bold')
         ax.set_xlabel("Frequency (Hz)", fontweight='bold')
         ax.set_ylim(0, 1.6)
-        desc = (
-        f"""Fig {fig_num}. You saw a signal at {observed} Hz with a sampling rate of {current_fs} Hz. If you used a bandpass filter then the highlighted frequency is the original frequency considering any aliasing observed and which Nyquist zone it resides in. If you did not use a bandpass filter, then this lists the possible frequencies associated with the sampled signal, which can be filtered manually using known physics of your source."""
-        )
-        wrapped_desc = textwrap.fill(desc, width=90)
-        plt.figtext(0.5, 0.05, wrapped_desc, ha='center', fontsize=10,
-                    bbox=dict(boxstyle="round,pad=0.3", fc="#f0f0f0", ec="black", alpha=0.5))
         plt.legend(loc='upper right')
         print("-" * 30)
         print(f"ANALYSIS FOR {observed} Hz (Fs = {current_fs} Hz)")

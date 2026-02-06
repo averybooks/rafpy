@@ -3,13 +3,17 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rf_funcitons_py"
-version = "0.1.1"
+name = "rf_functions_py"
+version = "0.1.2"
 description = "First package from a notebook"
 readme = "README.md"
 authors = [{name = "Avery Books", email = "abooks104@gmail.com"}]
 requires-python = ">3.8"
-dependencies = []
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "scipy",
+]
 
 [tool.setuptools]
 packages = ["rafpy"]
