@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rf_funcitons_py"
-version = "0.1.5"
+name = "rafpy"
+version = "0.1.6"
 description = "First package from a notebook"
 readme = "README.md"
 authors = [{name = "Avery Books", email = "abooks104@gmail.com"}]
