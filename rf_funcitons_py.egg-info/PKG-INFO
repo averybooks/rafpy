@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: rf_funcitons_py
+Version: 0.1.0
+Summary: First package from a notebook
+Author-email: Avery Books <abooks104@gmail.com>
+Requires-Python: >3.8
+Description-Content-Type: text/markdown
+
+#My First Package
+This package contains my alias source signal identification function
