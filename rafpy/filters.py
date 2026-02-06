@@ -36,3 +36,67 @@ def RF_filter(signal_array, filter_kernel, caption_text1, caption_text2, samplin
        
         plt.show()
     return filtered_signal
+
+def get_acf_amplitude(signal_array):
+    # 1. Remove DC offset (Center the signal at 0)
+    centered_signal = signal_array - np.mean(signal_array)
+    
+    # 2. Calculate the Autocorrelation
+    # 'same' mode keeps the output the same length as the input
+    acf = np.correlate(centered_signal, centered_signal, mode='full')
+    
+    # 3. Get the value at zero lag (the center of the 'full' correlation)
+    zero_lag_index = len(acf) // 2
+    r_0 = acf[zero_lag_index] / len(centered_signal) # Normalize by length
+    
+    # 4. Calculate RMS and Peak Amplitude
+    rms = np.sqrt(r_0)
+    peak_amplitude = rms * np.sqrt(2)
+    
+    return peak_amplitude
+
+def create_bpf_kernel(low_kb, high_kb, fs, num_taps=101):
+    """Utility to generate a Band-Pass Filter kernel."""
+    return sp_signal.firwin(num_taps, [low_kb, high_kb], fs=fs, pass_zero=False)
+
+def plot_frequency_response(data_list, use_acf=True):
+    """
+    Plots Max Voltage vs Frequency, handling 1.5MHz and 3MHz separately.
+    data_list: list of (freq_hz, filename, fs_hz)
+    """
+    data_1_5 = []
+    data_3_0 = []
+
+    for freq, filename, fs in data_list:
+        try:
+            data_file = np.load(filename)
+            signal_data = data_file["arr_0"][2]
+            
+            # Choose amplitude method
+            val = get_acf_amplitude(signal_data) if use_acf else np.max(np.abs(signal_data))
+            
+            if fs == 1500000:
+                data_1_5.append((freq / 1000, val))
+            else:
+                data_3_0.append((freq / 1000, val))
+        except Exception as e:
+            print(f"Error loading {filename}: {e}")
+
+    # Sort to prevent the 'sawtooth' lines
+    data_1_5.sort()
+    data_3_0.sort()
+
+    plt.figure(figsize=(10, 6))
+    if data_1_5:
+        x15, y15 = zip(*data_1_5)
+        plt.plot(x15, y15, 'bo-', label='1.5 MHz Fs', alpha=0.8)
+    if data_3_0:
+        x30, y30 = zip(*data_3_0)
+        plt.plot(x30, y30, 'ro-', label='3.0 MHz Fs', alpha=0.8)
+
+    plt.title(f"Frequency Response ({'ACF' if use_acf else 'Raw'} Peak)")
+    plt.xlabel("Signal Frequency (kHz)")
+    plt.ylabel("Amplitude (V)")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.show()

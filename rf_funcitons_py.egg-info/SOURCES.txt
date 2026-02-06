@@ -1,8 +1,10 @@
 README.md
 pyproject.toml
 rafpy/__init__.py
+rafpy/filters.py
 rafpy/logic.py
 rf_funcitons_py.egg-info/PKG-INFO
 rf_funcitons_py.egg-info/SOURCES.txt
 rf_funcitons_py.egg-info/dependency_links.txt
+rf_funcitons_py.egg-info/requires.txt
 rf_funcitons_py.egg-info/top_level.txt
