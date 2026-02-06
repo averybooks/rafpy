@@ -3,7 +3,7 @@ def id_signal_candidates(fig_num, observed, current_fs, filter_range=None, show_
     #filter_range: tuple (f_min, f_max)
     
     candidates =[]
-    f_nyquist = fs /2 
+    f_nyquist = current_fs /2 
 
     #logic for finding frequency within filter range
     match = None
