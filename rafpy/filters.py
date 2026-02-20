@@ -1,4 +1,8 @@
-def RF_filter(signal_array, filter_kernel, caption_text1, caption_text2, sampling_rate=1.0, show_graph=True):
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import signal
+import textwrap
+def RF_filter(fignum, fignum2, signal_array, filter_kernel, caption_text1, caption_text2, xlimitlower=0, xlimitupper=100, ylimitlower=-50, ylimitupper=50, sampling_rate=1.0, show_graph=True):
     normalized_kernel = filter_kernel / np.sum(filter_kernel)
     filtered_signal = signal.fftconvolve(signal_array, normalized_kernel, mode='same')
     if show_graph:
@@ -6,9 +10,9 @@ def RF_filter(signal_array, filter_kernel, caption_text1, caption_text2, samplin
         t = np.arange(N) / sampling_rate
         M = len(filter_kernel)
         t_kernel = np.arange(M) / sampling_rate
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
         plt.subplots_adjust(bottom=0.1, hspace=0.6)
-        ax1.set_title("Fig 1. Input 1: Signal & Filter Kernel", fontweight='bold')
+        ax1.set_title("Fig {fignum}. Input 1: Signal & Filter Kernel", fontweight='bold')
         ax1.plot(t, signal_array, color='steelblue', alpha=0.6, label='Input Signal (Left Axis)')
         ax1.tick_params(axis='y', labelcolor='steelblue')
         ax1_twin = ax1.twinx()
@@ -25,7 +29,7 @@ def RF_filter(signal_array, filter_kernel, caption_text1, caption_text2, samplin
         desc_1 = caption_text1 
         desc_2 = caption_text2
         ax1.text(0.5, -0.25, textwrap.fill(desc_1, width = 100), transform=ax1.transAxes, ha='center', va='top', fontsize=10, color='darkred', bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.5))
-        ax2.set_title("Fig 2. Output: Convolved Result", fontweight='bold')
+        ax2.set_title("Fig {fignum2}. Output: Convolved Result", fontweight='bold')
         ax2.plot(t, signal_array, color='gray', alpha=0.3, label='(Original Input)')
         ax2.plot(t, filtered_signal, color='green', linewidth=2, label='Filtered Output')
         ax2.set_xlabel(f"Time (seconds) if Fs={sampling_rate}Hz")
@@ -33,8 +37,9 @@ def RF_filter(signal_array, filter_kernel, caption_text1, caption_text2, samplin
         ax2.legend(loc='upper right')
         ax2.grid(True, alpha=0.3)
         ax2.text(0.5, -0.3, textwrap.fill(desc_2, width = 100), transform=ax2.transAxes, ha='center', va='top', fontsize=10, color='darkgreen', bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.5))
-       
+        plt.xlim(0, 0.0001)
         plt.show()
+        plt.close(fig)
     return filtered_signal
 
 def get_acf_amplitude(signal_array):
@@ -55,7 +60,7 @@ def get_acf_amplitude(signal_array):
     
     return peak_amplitude
 
-def create_bpf_kernel(low_kb, high_kb, fs, num_taps=101):
+def bpf_kernel(low_kb, high_kb, fs, num_taps=101):
     """Utility to generate a Band-Pass Filter kernel."""
     return sp_signal.firwin(num_taps, [low_kb, high_kb], fs=fs, pass_zero=False)
 

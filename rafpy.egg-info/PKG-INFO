@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: rafpy
-Version: 0.1.6
+Version: 0.1.7
 Summary: First package from a notebook
 Author-email: Avery Books <abooks104@gmail.com>
 Requires-Python: >3.8
