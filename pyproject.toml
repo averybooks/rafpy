@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rafpy"
-version = "0.2.0"
+version = "0.2.1"
 description = "First package from a notebook"
 readme = "README.md"
 authors = [{name = "Avery Books", email = "abooks104@gmail.com"}]
