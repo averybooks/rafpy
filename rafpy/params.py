@@ -82,10 +82,9 @@ class InterfParams:
         self.lon      = lon
         self.alt      = alt
 
-        # Pre-compute channel frequencies (sky frequencies, Hz)
-        # Each SNAP channel k corresponds to baseband frequency k * CHAN_BW.
-        # The sky frequency is freq_rf - IF_centre + baseband_freq, but since
-        # we only need relative frequencies for most calculations, we store both.
+        # Each SNAP channel k corresponds to baseband frequency k * CHAN_BW
+        # The sky frequency is freq_rf - IF_centre + baseband_freq
+        # we only need relative frequencies for most calculations so store both
         self.chan_baseband_freq = np.arange(N_CHAN) * CHAN_BW   # Hz, 0–250 MHz
         if freq_lo2 is not None:
             # Sky frequency = LO1 + LO2 + baseband  (SSB, upper sideband assumed)
@@ -128,3 +127,22 @@ class InterfParams:
         return (f"InterfParams(b_ew={self.b_ew:.2f} m, b_ns={self.b_ns:.2f} m, "
                 f"freq={self.freq_rf/1e9:.3f} GHz, lambda={self.lam*100:.2f} cm, "
                 f"lat={np.degrees(self.lat):.4f} deg)")
+    import numpy as np
+from rafpy.params import N_CHAN, CHAN_BW
+
+def chan_to_sky_freq(lo1_hz, lo2_hz, chan_range=None):
+    """
+    Convert SNAP channel indices to sky frequencies in GHz.
+    
+    lo1_hz : float  First LO frequency (RF → IF), Hz
+    lo2_hz : float  Second LO frequency (IF → baseband), Hz
+    """
+    k = np.arange(N_CHAN)
+    baseband_hz = k * CHAN_BW                        # 0 to 250 MHz
+    sky_hz      = lo1_hz + lo2_hz + baseband_hz      # sky frequency
+    sky_ghz     = sky_hz / 1e9
+
+    if chan_range is not None:
+        sky_ghz = sky_ghz[chan_range[0]:chan_range[1]+1]
+
+    return sky_ghz

@@ -55,6 +55,20 @@ def geometric_delay(h_s, delta, b_ew, b_ns, lat, lam=None, freq=None):
         return tau_g_sec * freq
     return tau_g_sec
 
+def geometric_delay_wavelengths(h_s, delta, p: InterfParams, chan_idx=None):
+    """Returns ν τ'_g (dimensionless), the geometric delay in wavelengths.
+    This is what goes into the fringe model phase argument 2*pi*nu*tau_g."""
+    if chan_idx is not None and p.chan_sky_freq is not None:
+        lam = p.chan_lam[chan_idx]
+    else:
+        lam = p.lam
+    return geometric_delay(h_s, delta, p.b_ew, p.b_ns, p.lat, lam=lam)
+
+
+def geometric_delay_seconds(h_s, delta, p: InterfParams):
+    """Returns τ'_g in seconds. Useful for cable delay estimation or debugging.
+    Note: frequency-independent, so no chan_idx needed."""
+    return geometric_delay(h_s, delta, p.b_ew, p.b_ns, p.lat)
 
 def geometric_delay_from_params(h_s, delta, p: InterfParams, chan_idx=None):
     """

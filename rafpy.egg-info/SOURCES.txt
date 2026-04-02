@@ -1,8 +1,15 @@
 README.md
 pyproject.toml
 rafpy/__init__.py
+rafpy/example_pipeline.py
 rafpy/filters.py
+rafpy/fitting.py
+rafpy/fringe.py
 rafpy/logic.py
+rafpy/modulator.py
+rafpy/params.py
+rafpy/plotting.py
+rafpy/visibility.py
 rafpy.egg-info/PKG-INFO
 rafpy.egg-info/SOURCES.txt
 rafpy.egg-info/dependency_links.txt

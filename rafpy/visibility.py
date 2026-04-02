@@ -55,7 +55,7 @@ def process_visibilities(results, chan_range=None):
 
     times    = np.array([r['timestamp']  for r in results])
     n_acc    = np.array([r['n_acc']      for r in results])
-    spectra  = np.array([r['power_spec'] for r in results])   # (N_t, N_CHAN)
+    spectra  = np.array([r['power_spec'] for r in results], dtype = complex)   # (N_t, N_CHAN)
 
     # Slice to good channels
     spectra  = spectra[:, chan_lo:chan_hi + 1]

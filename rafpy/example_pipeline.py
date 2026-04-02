@@ -10,17 +10,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ── Package imports ──────────────────────────────────────────────────────────
-from interf_analysis import (
+from rafpy import (
     InterfParams,
     fringe_model, local_fringe_freq, geometric_delay,
     brute_force_fit, nonlinear_fit,
     mf_theory, mf_observed, fit_diameter,
     process_visibilities,
 )
-from interf_analysis.fringe   import ha_from_lst_ra, lst_from_unix, fringe_period
-from interf_analysis.fitting  import recover_baseline, brute_force_uncertainties
-from interf_analysis.visibility import fourier_fringe_spectrum, fourier_filter_fringe
-from interf_analysis.plotting import (
+from rafpy.fringe   import ha_from_lst_ra, lst_from_unix, fringe_period
+from rafpy.fitting  import recover_baseline, brute_force_uncertainties
+from rafpy.visibility import fourier_fringe_spectrum, fourier_filter_fringe
+from rafpy.plotting import (
     plot_visibility, plot_fringe_spectrum, plot_fringe_fit,
     plot_S_surface, plot_fringe_freq, plot_mf_theory,
     plot_mf_fit, plot_waterfall,
